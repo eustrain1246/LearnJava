@@ -1,0 +1,7 @@
+对于泛型接口，没有写任何示例
+可以去看util包内的Collection、ArrayList和Iterable（或Iterator）
+自己写Demo需要些好几个文件
+以下为注释
+泛型接口在使用中需要指定类型，否则默认是Object类型，
+哪怕是一个泛型接口或类extends或者implements 另一个泛型接口或类也不会自动指定类型
+所以如果需要就必须指定一下类型
