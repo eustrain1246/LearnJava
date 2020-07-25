@@ -1,3 +1,4 @@
+//泛型类 意义演示
 class Main{
     public static void main(String[] args) {
         Generic1 g1 = new Generic1();//如果泛型类不定义类型名称，那么泛型名称会自动变成Object
