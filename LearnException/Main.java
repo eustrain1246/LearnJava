@@ -11,14 +11,16 @@ class Main{
                 //这里会抛出自定义的MyException(继承自Exception类)异常，当然如果不将上一行注释，那么永远无法执行到这一行
                 System.out.println(divide((Integer.MAX_VALUE >> 1) + 5, 0.4));
             }
-            //捕捉用户自定义的异常，这个异常不是继承自RuntimeException的子类，所以必须捕捉，或者再次向上抛出
+            //捕捉用户自定义的异常，这个异常不是RuntimeException或RuntimeException的子类，所以必须捕捉，或者再次向上抛出
             catch (MyException myException) {
                 System.out.println(myException.getMessage());
             }
-            //RuntimeException子类的异常可以不处理
+            //RuntimeException或RuntimeException的子类的异常可以不处理
             //如果不处理，那么JVM将自动打印异常信息并终止程序
-            //如这里就没有Catch，但是仍会看到后面打印的Catch over
-            finally {//无论是否出现异常、是否捕捉都会执行该代码块，适合做一些收尾工作
+            /******************************************************/
+            //无论是否出现异常、是否捕捉都会执行该代码块，适合做一些收尾工作
+            //如上面的就没有ArithmeticException异常Catch，但是仍会看到后面打印的Catch over
+            finally {
                 System.out.println("Catch over");
             }
         }
