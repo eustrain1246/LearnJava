@@ -17,15 +17,15 @@ class Main{
               而第二个参数为true时，不会删除原文件，后面的写入操作会直接写在原数据尾部
              */
             FileOutputStream fos = new FileOutputStream(new File("Note.txt"),true);
-            //向文件中写入一字节的数据，就目前的知识，如果小于0，不能确定写入了什么,大于255行为也不清楚，因为超出了一字节
+            //向文件中写入一字节的数据，然后迭代器后移一位，就目前的知识，如果小于0，不能确定写入了什么,大于255行为也不清楚，因为超出了一字节
             fos.write(65);// A
-            //向指定的文件写入一段Byte[]数据
+            //向指定的文件写入一段Byte[]数据，然后迭代器后移Byte的length的距离
             fos.write("Dates 数据\n".getBytes());//换行符要注意操作系统
-            //向指定的文件写入一段Byte[]数据，偏移量最小为0（不偏移），长度
+            //向指定的文件写入一段Byte[]数据，然后迭代器后移参数len的距离，偏移量最小为0（不偏移），长度
             fos.write("Hello World!".getBytes(),6,5);
             //使用完后记得调用close()方法关闭此文件输入流并释放与此流有关的所有系统资源。
             fos.close();
-            //close()之后不能再次写入数据
+            //close()之后不能再次写入数据，将会抛出一个异常
             //fos.write("Dates 数据".getBytes());
         } catch (IOException e) {
             e.printStackTrace();
