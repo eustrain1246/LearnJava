@@ -1,7 +1,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-//文件输入流
+//文件字节输入流
 public class Main {
     public static void main(String[] args) {
         try {
