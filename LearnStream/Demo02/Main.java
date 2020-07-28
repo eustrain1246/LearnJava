@@ -39,12 +39,12 @@ public class Main {
             byte[] i = new byte[length];//这里不能是空指针，否则会抛出一个空指针异常
             //读取byte数组长度的字节存在改byte中,并返回读取的字节数，如果到头了会返回一个-1。注该函数并不会申请空间
             fis.read(i);//注意这里是覆盖读取，如果读的长度不够byte数组的长度，剩下的数据不会被初始化为0，会保持原来的数据
-            System.out.println(i);//System.out.println不能打印字符数组
-            System.out.println(new String(i));//应转为String对象,再打印输出，这里能够正常显示中文
+            System.out.println(i);//System.out.println不能直接打印字符数组
+            System.out.println(new String(i));//应转为String对象,再打印输出，这里能够正常显示中文,如果刚好中文在数组边界，会有问题
             byte[] j = new byte[99999];
-            int k = fis.read(j);
+            int k = fis.read(j,1,9);//这里的偏移量是指存储在数组中的偏移量，而不是跳过多远去读
             System.out.println(k);//read函数如果读的长度大于剩余长度，也会正常读取并返回正常读取的字节数
-            System.out.println(new String(j));
+            System.out.println(new String(j,1,k));//偏移一位生成字符串
             fis.skip(-1 * (length + k));//再次回到开头
             //释放资源，当然之后也不能再次read或者skip
             fis.close();
