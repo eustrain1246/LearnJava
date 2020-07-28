@@ -17,8 +17,12 @@ class Main{
               而第二个参数为true时，不会删除原文件，后面的写入操作会直接写在原数据尾部
              */
             FileOutputStream fileOutputStream = new FileOutputStream(new File("Note.txt"),true);
+            //向文件中写入一字节的数据，就目前的知识，如果小于0，不能确定写入了什么,大于255行为也不清楚，因为超出了一字节
+            fileOutputStream.write(65);// A
             //向指定的文件写入一段Byte[]数据
-            fileOutputStream.write("Dates 数据".getBytes());
+            fileOutputStream.write("Dates 数据\n".getBytes());//换行符要注意操作系统
+            //向指定的文件写入一段Byte[]数据，偏移量最小为0（不偏移），长度
+            fileOutputStream.write("Hello World!".getBytes(),6,5);
             //使用完后记得调用close()方法关闭此文件输入流并释放与此流有关的所有系统资源。
             fileOutputStream.close();
             //close()之后不能再次写入数据
