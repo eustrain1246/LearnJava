@@ -1,4 +1,4 @@
-//文件输出流
+//文件字节输出流
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
