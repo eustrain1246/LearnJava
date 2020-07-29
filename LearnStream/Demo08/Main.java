@@ -1,5 +1,6 @@
 import java.io.*;
 //序列化和反序列化
+//只能写非静态成员
 class Main{
     public static void main(String[] args) {
         Output();
