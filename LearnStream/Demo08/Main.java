@@ -1,6 +1,7 @@
 import java.io.*;
 //序列化和反序列化
-//只能写非静态成员
+//只能写非静态成员，非瞬态成员
+//成员变量可以同transient关键字修饰
 class Main{
     public static void main(String[] args) {
         Output();
