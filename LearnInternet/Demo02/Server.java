@@ -1,54 +1,64 @@
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
-//客户端
-public class Client {
-    static final String fromAddress = "from.txt";
+//服务端
+public class Server{
+    static final int myPort = 62557;
+    static final String toAddress = "to.txt";
     static final int bufferSize = 4 * 1024;
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         InputStream is = null;
         OutputStream os = null;
+        ServerSocket serverSocket = null;
         Socket socket = null;
         try {
+            //创建文件输出流，指向toAddress文件
+            os = new FileOutputStream(toAddress,false);
+            //建立一个服务器套接字
+            serverSocket = new ServerSocket(myPort);
             System.out.println("Connecting...");
-            //创建套接字，并连接服务器
-            socket = new Socket("192.168.1.110", Server.myPort);
+            //监听，获取客户端的套接字
+            socket = serverSocket.accept();
+            //打印输出客户端IP地址
             System.out.print("Connect successful.");
-            //根据socket获取输出流
-            os = socket.getOutputStream();
-            //定义文件输入流
-            is = new FileInputStream(fromAddress);
-            //定义缓冲区
+            System.out.println("\tIp is " + socket.getInetAddress());
+            //获取输出流
+            is = socket.getInputStream();
+            //声明缓冲区
             byte[] buffer = new byte[bufferSize];
-            //读取长度
+            //保存数据的大小
             int len = 0;
-            System.out.println("Sending data.");
-            //从文件读取字节数据
-            while ((len = is.read(buffer)) != -1) {
-                //发送给服务器
+            System.out.println("Reserving data.");
+            //每次从服务端读bufferSize字节的数据
+            //有必要对available进行判断，因为最后一次读数据之后流可能就关闭了，
+            //在流关闭后再直接读数据会抛出SocketException: Connection reset异常，而不是返回-1
+            while (is.available() != 0 && (len = is.read(buffer)) != -1) {
+                //写到文件
                 os.write(buffer, 0, len);
                 //刷新输出流
                 os.flush();
             }
-            //关闭输入流，并发送一个终止符给服务端
+            //关闭输入流
             socket.shutdownInput();
-            System.out.println("Send over.");
-        } catch (java.io.FileNotFoundException e) {
-            System.out.println("找不到文件");
-            e.printStackTrace();
-        } catch (IOException e) {
+            System.out.println("Reserve over.");
+        }
+        catch(IOException e){
             e.printStackTrace();
         } finally {
             try {
-                if (is != null)
+                if(is != null)
                     is.close();
-                if (os != null)
+                if(os != null)
                     os.close();
-                if (socket != null)
+                if(socket != null)
                     socket.close();
-            } catch (IOException e) {
+                if(serverSocket != null)
+                    serverSocket.close();
+            }
+            catch(NullPointerException e){
                 e.printStackTrace();
             }
         }
