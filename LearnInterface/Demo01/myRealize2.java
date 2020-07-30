@@ -29,7 +29,4 @@ public class myRealize2 implements myInterface1, myInterface2 {
      * 接口之间可以继承，甚至可以多继承
      * 如果多继承时，两个接口的默认方法冲突，解决方法同一般的类相同，必须进行重写（default关键字不能省略）
      */
-
-
-
 }
