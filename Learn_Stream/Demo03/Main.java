@@ -1,13 +1,65 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Stream;
-//获取Stream流
+//Stream流常用方法
 public class Main{
     public static void main(String[] args) {
-        Collection<String> coll = new ArrayList<>();
-        for(int i = 1; i <= 10; ++i)coll.add(String.valueOf(i));
-        func_filter(coll.stream());
-
+        System.out.println("************************************************");//遍历
+        Collection<String> coll1 = new ArrayList<>();
+        for(int i = 1; i <= 5; ++i)coll1.add(String.valueOf(i));
+        System.out.println(coll1);
+        func_forEach(coll1.stream());
+        System.out.println(coll1);
+        System.out.println("************************************************");//计数
+        Collection<String> coll2 = new ArrayList<>();
+        for(int i = 1; i <= 10; ++i)coll2.add(String.valueOf(i));
+        System.out.println(coll2);
+        func_count(coll2.stream());
+        System.out.println(coll2);
+        System.out.println("************************************************");//过滤
+        Collection<String> coll3 = new ArrayList<>();
+        for(int i = 1; i <= 10; ++i)coll3.add(String.valueOf(i));
+        System.out.println(coll3);
+        func_filter(coll3.stream());
+        System.out.println(coll3);
+        System.out.println("************************************************");//转换
+        Collection<String> coll4 = new ArrayList<>();
+        for(int i = 1; i <= 5; ++i)coll4.add(String.valueOf(i));
+        System.out.println(coll4);
+        func_map(coll4.stream());
+        System.out.println(coll4);
+        System.out.println("************************************************");//截取
+        Collection<String> coll5 = new ArrayList<>();
+        for(int i = 1; i <= 10; ++i)coll5.add(String.valueOf(i));
+        System.out.println(coll5);
+        func_limit(coll5.stream());
+        System.out.println(coll5);
+        System.out.println("************************************************");//跳过
+        Collection<String> coll6 = new ArrayList<>();
+        for(int i = 1; i <= 10; ++i)coll6.add(String.valueOf(i));
+        System.out.println(coll6);
+        func_skip(coll6.stream());
+        System.out.println(coll6);
+        System.out.println("************************************************");//合并
+        Collection<String> coll7_1 = new ArrayList<>();
+        Collection<String> coll7_2 = new ArrayList<>();
+        for(int i = 1; i <= 10; i+=2)coll7_1.add(String.valueOf(i));
+        for(int i = 2; i <= 10; i+=2)coll7_2.add(String.valueOf(i));
+        System.out.println(coll7_1);
+        System.out.println(coll7_2);
+        func_concat(coll7_1.stream(),coll7_2.stream());
+        System.out.println(coll7_1);
+        System.out.println(coll7_2);
+        System.out.println("************************************************");
+        //从上面得到打印的数组信息可以发现，使用流并不会改变集合
+    }
+    //遍历 终结方法
+    public static void func_forEach(Stream<String> stream){
+        stream.forEach(s-> System.out.println("ForEach: " + s));
+    }
+    //计数 终结方法
+    public static void func_count(Stream<String> stream){
+        System.out.println(stream.count());
     }
     //过滤
     public static void func_filter(Stream<String> stream){
@@ -18,8 +70,29 @@ public class Main{
         stream.forEach((s)-> System.out.println(s));//失败，因为流只能使用一次
         */
         //读取filter作为返回值
-        Stream<String> stream1 = stream.filter((s) -> (int) Integer.parseInt(s) < 5);
-        stream1.forEach((s)-> System.out.println(s));
+        Stream<String> stream1 = stream.filter(s -> (int) Integer.parseInt(s) < 5);
+        stream1.forEach(System.out::println);//编译器说与streamI.forEach((i)-> System.out.println(i));等价
+    }
+    //转换
+    public static void func_map(Stream<String>stream){
+        //传入一个Function<T,R>接口，将流中T类型的数据全部转化成R类型的数据
+        Stream<Integer> stream1 = stream.map(s->Integer.parseInt(s) * 2);
+        stream1.forEach(System.out::println);//打印输出，当然可以和上面连成一串
+    }
+    //截取
+    public static void func_limit(Stream<String>stream){
+        //截取流中的前maxSize(long)个元素，如果maxSize大于流的长度进行操作
+        stream.limit(7).forEach(System.out::println);
+    }
+    //跳过
+    public static void func_skip(Stream<String>stream){
+        //跳过前n个元素,如果n大于流的长度，会将流清空
+        stream.skip(3).forEach(System.out::println);
+    }
+    //合并 静态方法
+    public static void func_concat(Stream<String> stream1,Stream<String> stream2){
+        //合并两个流并返回新的流
+        Stream.concat(stream1,stream2).forEach(System.out::println);
     }
 }
 /*粘贴自LearnInterface/Demo02
